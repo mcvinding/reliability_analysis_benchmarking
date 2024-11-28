@@ -1,11 +1,12 @@
 % Benchmarking of the alphaprime function with 10% 1% and 0.1% binning 
-% compared to absolute alpha
+% compared to absolute alpha.
 %
 % Test agreement between two time-series: Sine-waves with random noise.
 
-wrkdir = 'C:\Users\ncb623\reliability_analysis';
-outdir = fullfile(wrkdir, '/benchmarking/output');
-addpath(wrkdir)
+wrkdir = 'C:\Users\ncb623\reliability_analysis benchmarking';
+outdir = fullfile(wrkdir, '/output');
+tooldir = 'C:\Users\ncb623\reliability_analysis';
+addpath(tooldir)
 
 %% Generate time-series settings
 nrun        = 100;
@@ -93,9 +94,13 @@ kripAlpha([alphaP2(:)'; alpha(:)'], 'interval')
 kripAlpha([alphaP1(:)'; alpha(:)'], 'interval')
 
 for ii = 2:length(err)
-    [~, pval1(ii)] = ttest(alphaP1(:,ii), alpha(:,ii), 'tail', 'both');
-    [~, pval2(ii)] = ttest(alphaP2(:,ii), alpha(:,ii), 'tail', 'both');
-    [~, pval3(ii)] = ttest(alphaP3(:,ii), alpha(:,ii), 'tail', 'both');
+    [pval1(ii), H1(ii)] = signrank(alphaP1(:,ii), alpha(:,ii), 'tail', 'both','method','exact');
+    [pval2(ii), H2(ii)] = signrank(alphaP2(:,ii), alpha(:,ii), 'tail', 'both','method','exact');
+    [pval3(ii), H3(ii)] = signrank(alphaP3(:,ii), alpha(:,ii), 'tail', 'both','method','exact');
+
+    [H1b(ii), pval1b(ii)] = ttest(alphaP1(:,ii), alpha(:,ii), 'tail', 'both');
+    [H2b(ii), pval2b(ii)] = ttest(alphaP2(:,ii), alpha(:,ii), 'tail', 'both');
+    [H3b(ii), pval3b(ii)] = ttest(alphaP3(:,ii), alpha(:,ii), 'tail', 'both');
 
     aval1(ii) = kripAlpha([alphaP1(:,ii)'; alpha(:,ii)'], 'ratio');
     aval2(ii) = kripAlpha([alphaP2(:,ii)'; alpha(:,ii)'], 'ratio');
@@ -131,7 +136,7 @@ legend(['Alpha', char(39), ' (0.1%)'], ...
        ['Alpha', char(39), ' (1%)'], ...
        ['Alpha', char(39), ' (10%)'], ...
        'Location', 'southwest')
-xlim([0.05 2.05]); ylim([-12, 2])
+xlim([0.05 2.05]); ylim([-14, 2])
 ax = gca();
 ax.LineWidth = lw;
 xlabel('Noise factor'); 
@@ -167,7 +172,7 @@ errorbar(err, median(difP1), ciDifP1(1,:)-median(difP1), ciDifP1(2,:)-median(dif
 %        ['Alpha', char(39), ' (1%)'], ...
 %        ['Alpha', char(39), ' (10%)'], ...
 %        'Location', 'southeast')
-xlim([-0.05 2.05]); ylim([-0.03, 0.005])
+xlim([-0.05 2.05]); ylim([-0.04, 0.005])
 ax = gca();
 ax.LineWidth = lw;
 % xlabel('Noise factor'); 
