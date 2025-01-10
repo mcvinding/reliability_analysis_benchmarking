@@ -11,7 +11,8 @@ ps = parallel.Settings;
 ps.Pool.AutoCreate=false;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Generate interval data time-series settings
+%% Interval data 
+% time-series settings
 nrun        = 100;
 StopTimes   = [100, 200, 400, 600, 1000, 1500, round(logspace(3.3,5,14), -2)]; % 2.^(1:15); %, 15, 20, 25, 30, 40, 50];
 fs          = 1;            % Sampling frequency (samples per second) 
@@ -83,18 +84,19 @@ save(fullfile(outdir,'timetest2'), 'alphaOrg','alphaN2f','alphaPrm','alphaMat', 
 disp('DONE')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Ordinal settings
+%% Ordinal data
+% settings
 N_obs       = 2;
 errPct      = 0.5;  %  Percent disagreement
 ordVals     = [1,2,3,4,5,6,7,8,9,10];
 
-%% Init.
+% Init.
 alphaOrg_ord = nan(nrun, length(StopTimes));
 alphaMat_ord = nan(nrun, length(StopTimes));
 dTOrg_ord = nan(nrun, length(StopTimes));
 dTMat_ord = nan(nrun, length(StopTimes));
 
-%% Run sims
+% Run sims
 for ii = 1:nrun
     fprintf('### Run %i of %i ###\n', ii, nrun)
     for aa = 1:length(StopTimes)
@@ -127,9 +129,8 @@ disp('DONE')
 
 % Save output
 fprintf('Saving output... ')
-save(fullfile(outdir,'timetestOrd'), 'alphaOrg_ord','alphaN2f_ord','alphaPrm_ord', ...
-                                     'alphaMat_ord', 'dTOrg_ord','dTN2f_ord', ...
-                                     'dTPrm_ord','dTMat_ord')
+save(fullfile(outdir,'timetestOrd'), 'alphaOrg_ord', 'alphaMat_ord', ...
+                                     'dTOrg_ord','dTMat_ord')
 disp('DONE')
 
 %END
