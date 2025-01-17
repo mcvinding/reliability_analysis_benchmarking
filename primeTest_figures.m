@@ -17,6 +17,13 @@ ciP100 = prctile(alphaP100, [2.5, 97.5]);
 ciP010 = prctile(alphaP010, [2.5, 97.5]);
 ciP001 = prctile(alphaP001, [2.5, 97.5]);
 
+%% Summary tables
+TA0   = array2table([0:.1:2; mean(alpha); ciA0]);
+TP250 = array2table([0:.1:2; mean(alpha); ciA0]);
+TP100 = array2table([0:.1:2; mean(alpha); ciA0]);
+TP010 = array2table([0:.1:2; mean(alpha); ciA0]);
+TP001 = array2table([0:.1:2; mean(alpha); ciA0]);
+
 %% Settings
 nrun        = 100;
 StopTime    = 10;                % seconds 

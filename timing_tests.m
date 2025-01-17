@@ -13,7 +13,7 @@ ps.Pool.AutoCreate=false;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Interval data 
 % time-series settings
-nrun        = 100;
+nrun        = 2;
 StopTimes   = [100, 200, 400, 600, 1000, 1500, round(logspace(3.3,5,14), -2)]; % 2.^(1:15); %, 15, 20, 25, 30, 40, 50];
 fs          = 1;            % Sampling frequency (samples per second) 
 dt          = 1/fs;         % seconds per sample 
@@ -33,7 +33,7 @@ dTMat = nan(nrun, length(StopTimes));
 %% Run sims
 for ii = 1:nrun
     fprintf('### Run %i of %i ###\n', ii, nrun)
-    for aa = 1:length(StopTimes)
+    for aa = 15:length(StopTimes)
         t = (dt:dt:StopTimes(aa));
         fprintf('N = %i ...\n ', length(t))
 
@@ -44,7 +44,7 @@ for ii = 1:nrun
         end
 
         % Main implementation
-        if ~(length(t) > 45000)  % Above this and my PC will crash
+        if ~(length(t) > 75000)
             tic
             alphaOrg(ii,aa) = kripAlpha(dat, 'interval');
             dTOrg(ii,aa) = toc;
@@ -79,7 +79,7 @@ disp('DONE')
 
 % Save output
 fprintf('Saving output... ')
-save(fullfile(outdir,'timetest2'), 'alphaOrg','alphaN2f','alphaPrm','alphaMat', ...
+save(fullfile(outdir,'timetest3'), 'alphaOrg','alphaN2f','alphaPrm','alphaMat', ...
                                   'dTOrg','dTN2f','dTPrm','dTMat')
 disp('DONE')
 
@@ -129,7 +129,7 @@ disp('DONE')
 
 % Save output
 fprintf('Saving output... ')
-save(fullfile(outdir,'timetestOrd'), 'alphaOrg_ord', 'alphaMat_ord', ...
+save(fullfile(outdir,'timetestOrd2'), 'alphaOrg_ord', 'alphaMat_ord', ...
                                      'dTOrg_ord','dTMat_ord')
 disp('DONE')
 
