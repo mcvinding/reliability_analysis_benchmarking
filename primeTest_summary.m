@@ -19,10 +19,10 @@ ciP001 = prctile(alphaP001, [2.5, 97.5]);
 
 %% Summary tables
 mTabA0   = array2table([0:.1:2; mean(alpha); ciA0]);
-mTabP250 = array2table([0:.1:2; mean(ciP250); ciA0]);
-mTabP100 = array2table([0:.1:2; mean(ciP100); ciA0]);
-mTabP010 = array2table([0:.1:2; mean(ciP010); ciA0]);
-mTabP001 = array2table([0:.1:2; mean(ciP001); ciA0]);
+mTabP250 = array2table([0:.1:2; mean(ciP250); ciP250]);
+mTabP100 = array2table([0:.1:2; mean(ciP100); ciP100]);
+mTabP010 = array2table([0:.1:2; mean(ciP010); ciP010]);
+mTabP001 = array2table([0:.1:2; mean(ciP001); ciP001]);
 
 %% Alpha
 for ii = 2:size(alpha,2)
@@ -32,10 +32,10 @@ for ii = 2:size(alpha,2)
     alphaA0P001(ii) = reliability_analysis([alpha(:,ii), alphaP001(:,ii)]', 'interval');
 end
 
-  = array2table([0:.1:2; alphaA0P250]);
-  = array2table([0:.1:2; alphaA0P100]);
-  = array2table([0:.1:2; alphaA0P010]);
-  = array2table([0:.1:2; alphaA0P001]);
+aTabP250 = array2table([0:.1:2; alphaA0P250]);
+aTabP100 = array2table([0:.1:2; alphaA0P100]);
+aTabP010 = array2table([0:.1:2; alphaA0P010]);
+aTabP001 = array2table([0:.1:2; alphaA0P001]);
 
 
 for ii = 2:size(alpha,2)
@@ -59,7 +59,6 @@ pTabP001 = array2table([0:.1:2; P4; H4]);
 
 
 %% Save
-outdir = 'C:\Users\ncb623\reliability_analysis benchmarking\output';
 writetable(mTabA0, fullfile(outdir, 'mTabA0.csv'))
 writetable(mTabP250, fullfile(outdir, 'mTabP250.csv'))
 writetable(mTabP100, fullfile(outdir, 'mTabP100.csv'))
