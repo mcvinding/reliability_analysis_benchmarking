@@ -70,7 +70,6 @@ for ii = 1:nrun
             dTMat(ii,aa) = toc;   
             fprintf('done in %3.3f s\n', dTMat(ii,aa))
         end
-
     end
 end
 disp('DONE')

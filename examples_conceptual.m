@@ -1,6 +1,23 @@
 % Make conceptual figures
 wrkdir = 'C:\Users\ncb623\reliability_analysis benchmarking';
 outdir = fullfile(wrkdir, '/output');
+addpath("C:\Users\ncb623\reliability_analysis")
+
+%% Basic seetings
+lw = 1.5;              % LineWidth
+ms = 5;                % MarkerSize
+
+cmap_cat = [215/255, 25/255, 28/255;
+            253/255,174/255, 97/255;
+            255/255,255/255,191/255;
+            171/255,217/255,233/255;
+             44/255,123/255,182/255];
+
+cmap_con = [240/255,249/255,232/255;
+            186/255,228/255,188/255;
+            123/255,204/255,196/255;
+             67/255,162/255,202/255;
+              8/255,104/255,172/255];
 
 %% Interval data example
 % Define the sine data
@@ -9,9 +26,6 @@ f = 1; % Frequency of both sine waves
 phase_shifts = [pi/12, pi/4, pi/2]; 
 
 close all
-lw = 1.5;              % LineWidth
-ms = 5;                % MarkerSize
-
 f1 = figure(1);
 set(f1, 'Position', [600, 400, 1200, 600])
 for ii = 1:length(phase_shifts)
@@ -63,6 +77,8 @@ exportgraphics(f1, fullfile(outdir, 'example_int.jpg'), 'Resolution', 600);
 
 
 %% Ordinal and nominal
+rng(3)
+            
 % Define the grid size
 rows = 4;
 cols = 20;
@@ -70,7 +86,10 @@ cols = 20;
 percentages = [1, 40, 80]; % 10% of cells will be replaced
 
 f3 = figure(3);
-set(f3, 'Position', [600, 400, 1200, 400])
+f4 = figure(4);
+set(f3, 'Position', [600, 400, 1200, 200])
+set(f4, 'Position', [600, 400, 1200, 200])
+
 for ii = 1:length(percentages)
     % Initialize the grid with identical values in each row
     grid = repmat(1:5, rows, ceil(cols/5));
@@ -80,17 +99,17 @@ for ii = 1:length(percentages)
     for i = 1:num_cells_to_replace
         row = randi(rows);
         col = randi(cols);
-        grid(row, col) = randi([1, 5]); % Replace with a value between 6 and 10
+        grid(row, col) = randi([1, 5]); % Replace with a value between 1 and 5
     end
 
     a_ordinal = reliability_analysis(grid, 'ordinal');
     a_nominal = reliability_analysis(grid, 'nominal');
 
-
     % Plot the grid using imagesc
-    subplot(2,3,ii+3); hold on
+    figure(3);
+    subplot(1,3,ii); hold on
     imagesc(grid);
-    colormap('lines')
+    colormap(cmap_con)
 
     title(sprintf('Alpha = %.2f', a_ordinal), 'FontSize', 14)
     %Add grid lines
@@ -115,10 +134,11 @@ for ii = 1:length(percentages)
         end
     end
 
-        % Plot the grid using imagesc
-    subplot(2,3,ii); hold on
+    % Plot the grid using imagesc
+    figure(4);
+    subplot(1,3,ii); hold on
     imagesc(grid);
-    colormap('lines')
+    colormap(cmap_cat)
 
     title(sprintf('Alpha = %.2f', a_nominal), 'FontSize', 14)
     %Add grid lines
@@ -144,6 +164,7 @@ for ii = 1:length(percentages)
     end
 end
 
-exportgraphics(f3, fullfile(outdir, 'example_orn_nom.jpg'), 'Resolution', 600); 
+exportgraphics(f3, fullfile(outdir, 'example_ord.jpg'), 'Resolution', 600); 
+exportgraphics(f4, fullfile(outdir, 'example_nom.jpg'), 'Resolution', 600); 
 
 % END
