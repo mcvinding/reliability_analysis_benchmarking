@@ -27,14 +27,12 @@ tic
 toc
 
 %% Summary
-% load(fullfile(outdir, 'example_ord_results.mat'), ...
-%     'boots','alpha')
+% load(fullfile(outdir, 'example_ord_results.mat'))
 
 sig = .8;
-
 ci = prctile(boots, [2.5, 97.5]);
 fprintf('Alpha = %.3f (CI: %.3f-%.3f)\n', alpha, ci(1), ci(2))
-fprintf(['Probability of alpha being above threshold of %.2f:\n' ...
+fprintf(['Test of alpha being above threshold of %.2f:\n' ...
          '      P = %.3f\n'], sig, mean(boots> 0.8));
 
 %% Plot
@@ -77,11 +75,16 @@ toc
 
 ci2 = prctile(boots2, [2.5, 97.5]);
 fprintf('Alpha = %.3f (CI: %.3f-%.3f)\n', alpha2, ci2(1), ci2(2))
-fprintf(['Probability of alpha being above threshold of %.2f:\n' ...
+fprintf(['Test of alpha being above threshold of %.2f:\n' ...
          '      P = %.3f\n'], sig, mean(boots2> 0.8));
 figure; histogram(boots2, 30, 'Normalization', 'pdf');
-xline(alpha2, 'k', 'LineWidth',2);
-
+xline(alpha2, 'k--', 'LineWidth',2);
+ax = gca();
+ax.LineWidth = lw;
+xlim([0.555, 0.57]); 
+ylim([0, 150])
+xlabel('Alpha')
+title('Bootstrap distribution')
 % [vert, lab, col] = read_annotation(fname);
 
 %% Save data

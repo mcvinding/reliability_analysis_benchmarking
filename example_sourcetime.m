@@ -100,9 +100,8 @@ exportgraphics(f3, fullfile(figdir, 'source_tmp.jpg'), 'Resolution', 600);
 sig = .8;
 ci = prctile(boots, [2.5, 97.5]);
 fprintf('Alpha = %.3f (CI: %.3f-%.3f)\n', alpha, ci(1), ci(2))
-fprintf(['Probability of alpha being above threshold of %.2f:\n' ...
+fprintf(['Test of alpha being above threshold of %.2f:\n' ...
          '      P = %.3f\n'], sig, mean(boots> 0.8));
-
 
 %% Plot
 lw = 1.5;              % LineWidth
@@ -123,7 +122,6 @@ xlabel('Alpha')
 title('Bootstrap distribution')
 
 exportgraphics(f4, fullfile(figdir, 'hist_int1.jpg'), 'Resolution', 600);
-
 close all
 
 %% Frequency analysis
@@ -180,8 +178,8 @@ dat_phase = [tst.theta(freqbin,:); tst2.theta(freqbin,:)];
 sig = .8;
 ci_phase = prctile(boots_phase, [2.5, 97.5]);
 fprintf('Alpha = %.3f (CI: %.3f-%.3f)\n', alpha_phase, ci_phase(1), ci_phase(2))
-fprintf(['Probability of alpha being above threshold of %.2f:\n' ...
-         '      P = %.3f\n'], sig, mean(boots_phase> 0.8));
+fprintf(['Test of alpha being above threshold of %.2f:\n' ...
+         '      P = %.3f\n'], sig, 1-mean(boots_phase > 0.8));
 
 %% Plot
 lw = 1.5;              % LineWidth
@@ -196,7 +194,7 @@ xline(alpha_phase, 'k--', 'LineWidth',2);
 ax = gca();
 ax.LineWidth = lw;
 % set(gca, 'YTick', []);
-xlim([0.6, 0.9]); 
+xlim([0.5, 0.9]); 
 ylim([0, 150])
 xlabel('Alpha')
 title('Bootstrap distribution')
